@@ -1,0 +1,22 @@
+language: generic
+services:
+    - docker
+
+
+before_install:
+    - docker build -t sharleedah/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true sharleedah/react-test npm test -- --coverage
+
+after_success:
+    - docker build -t sharleedah/multi-client ./client
+    - docker build -t sharleedah/multi-nginx ./nginx
+    - docker build -t sharleedah/multi-server ./server
+    - docker build -t sharleedah/multi-worker ./worker
+    # Login docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push sharleedah/multi-client
+    - docker push sharleedah/multi-nginx
+    - docker push sharleedah/multi-server
+    - docker push sharleedah/multi-worker
