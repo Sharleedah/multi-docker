@@ -20,3 +20,15 @@ after_success:
     - docker push sharleedah/multi-nginx
     - docker push sharleedah/multi-server
     - docker push sharleedah/multi-worker
+
+# deploy:
+#     provider: elasticbeanstalk
+#     region: eu-central-1
+#     app: multi-docker
+#     env: multi-docker-env
+#     bucket_name: elasticbeanstalk-eu-central-1-%s3bucketname
+#     bucket_path: docker-multi
+#     on:
+#         branch: master
+#     access_key_id: $AWS_ACCESS_KEY
+#     secret_access_key: $AWS_SECRET_KEY
